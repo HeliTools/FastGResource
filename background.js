@@ -7,6 +7,9 @@ var google_cn_resource = {
   ],
   types: ["image", "script", "stylesheet"]
 }
+var fonts_mirror = "fonts.lug.ustc.edu.cn";
+var ajax_mirror = "ajax.lug.ustc.edu.cn";
+
 
 chrome.webRequest.onBeforeRequest.addListener(function(info) {
     var u = info.url;
@@ -21,23 +24,23 @@ chrome.webRequest.onBeforeRequest.addListener(function(info) {
     return {redirectUrl: u};
   }, google_cn_resource,["blocking"]);
 
-
-// /url 直接重定向
-chrome.webRequest.onBeforeRequest.addListener(function(info) {
+chrome.webRequest.onBeforeRequest.addListener(
+  function(info) {    
     var u = info.url;
-    if (u.indexOf('googleapis') > 0) {
-      u = u.replace("https://fonts.googleapis.com", 'http://fonts.useso.com');
+    if (u.indexOf("https://fonts.googleapis.com/") !== -1){
+      return {redirectUrl: u.replace("fonts.googleapis.com", fonts_mirror)};
+    } else if (info.url.indexOf("https://ajax.googleapis.com/") !== -1){
+      return {redirectUrl: u.replace("ajax.googleapis.com", ajax_mirror)};
     }
-    // console.log("Cat intercepted: " + u);
-    return {redirectUrl: u};
+    return {redirectUrl: u.replace("googleapis", "useso")};
   },
   {
     urls: [
-      "https://fonts.googleapis.com/*",
-      "http://fonts.googleapis.com/*",
+       "*://fonts.googleapis.com/*", "*://ajax.googleapis.com/*"
     ],
-    types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest","other"]
-  },["blocking"]);
+    types: ["stylesheet", "script", "image", "object", "other"]
+  },
+  ["blocking"]);
 
 
 chrome.webRequest.onBeforeRequest.addListener(function(info){

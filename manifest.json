@@ -1,14 +1,15 @@
 {
   "manifest_version": 2,
   "name": "FastGResources",
-  "description": "This extension use google.cn and fonts.useso.com to fast ur Climbing.",
+  "description": "This extension use google.cn and fonts.lug.ustc.edu.cn and fonts.useso.com to fast ur Climbing.",
   "version": "1.0",
   "permissions": [
   	"webRequest",
   	"webRequestBlocking",
-    "http://inf.pub/*",
+    "*://inf.pub/*",
     "https://inf.pub/*",
-    "http://fonts.googleapis.com/*",
+    "*://fonts.googleapis.com/*",
+    "*://ajax.googleapis.com/*",
     "https://fonts.googleapis.com/*"
   ],
   "content_scripts": [
