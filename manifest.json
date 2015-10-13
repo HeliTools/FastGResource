@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "FastGResources",
+  "description": "This extension use google.cn and fonts.useso.com to fast ur Climbing.",
+  "version": "1.0",
+  "permissions": [
+  	"webRequest",
+  	"webRequestBlocking",
+    "http://inf.pub/*",
+    "https://inf.pub/*",
+    "http://fonts.googleapis.com/*",
+    "https://fonts.googleapis.com/*"
+  ],
+  "content_scripts": [
+  	{
+  		"matches": ["https://inf.pub/*", "http://inf.pub/*"],
+  		"css": [],
+  		"js": ["bower_components/jquery/dist/jquery.min.js", "fast.js"]
+  	}
+  ],
+  "background":{
+  	"scripts":[
+  		"background.js"
+  	]
+  }
+}
