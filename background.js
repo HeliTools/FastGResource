@@ -9,6 +9,7 @@ var google_cn_resource = {
 }
 var fonts_mirror = "fonts.lug.ustc.edu.cn";
 var ajax_mirror = "ajax.lug.ustc.edu.cn";
+var google_content = "googleusercontent.com";
 
 
 chrome.webRequest.onBeforeRequest.addListener(function(info) {
@@ -23,6 +24,16 @@ chrome.webRequest.onBeforeRequest.addListener(function(info) {
     // console.log("Cat intercepted: " + u);
     return {redirectUrl: u};
   }, google_cn_resource,["blocking"]);
+
+chrome.webRequest.onBeforeRequest.addListener(
+  function(info) {
+    var u = info.url;
+    u = u.replace(/(https?:\/\/)(.*?)$/, "$1"+site+"/!$2");
+    console.log(u);
+    return {redirectUrl: u};
+  }, 
+  {urls:["*://*." + google_content + "/*"], types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest","other"]}, 
+  ['blocking']);
 
 chrome.webRequest.onBeforeRequest.addListener(
   function(info) {    
@@ -42,24 +53,21 @@ chrome.webRequest.onBeforeRequest.addListener(
   },
   ["blocking"]);
 
-
-chrome.webRequest.onBeforeRequest.addListener(function(info){
-  var u = info.url;
-  var _urls = u.split("&");
-  for(var _item in _urls) {
-    _item = _urls[_item];
-    if (_item.indexOf("url=") == 0) {
-        u = _item.substr(4);
-        u = decodeURIComponent(u);
-        break;
+chrome.webRequest.onBeforeRequest.addListener(
+  function(info) {
+    var u = info.url;
+    var _urls = u.split("&");
+    for(var _item in _urls) {
+      _item = _urls[_item];
+      if (_item.indexOf("url=") == 0) {
+          u = _item.substr(4);
+          u = decodeURIComponent(u);
+          break;
+      }
     }
-  }
-  // console.log(u);
-  return {redirectUrl: u};
+    // console.log(u);
+    return {redirectUrl: u};
 }, {
-  urls: [
-    "https://" + site + "/url*",
-    "http://" + site + "/url*"
-  ],
+  urls: ["*://" + site + "/url*"],
   types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest","other"]
 }, ['blocking']);
