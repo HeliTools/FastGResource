@@ -6,12 +6,7 @@
   "permissions": [
   	"webRequest",
   	"webRequestBlocking",
-    "*://inf.pub/*",
-    "https://inf.pub/*",
-    "*://fonts.googleapis.com/*",
-    "*://ajax.googleapis.com/*",
-    "https://fonts.googleapis.com/*",
-    "*://*.googleusercontent.com/*"
+    "*://*/*",
   ],
   "background":{
   	"scripts":[
